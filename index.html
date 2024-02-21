@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Access Example</title>
+</head>
+
+<body>
+  <video id="videoElement" autoplay></video>
+  <button id="open">Open Camera</button>
+  <video autoplay id="screen"></video>
+  <button id="share">Share Screen</button>
+  <p id="status"></p>
+  <script>
+    // code for open camera
+    document.getElementById('open').addEventListener('click', async () => {
+      const video = document.getElementById('videoElement');
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+    })
+    // code for share screen 
+    document.getElementById('share').addEventListener('click', async () => {
+      const video = document.getElementById('screen');
+      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      video.srcObject = stream;
+    })
+
+
+    function checkStatus(isOnline) {
+      if (navigator.onLine) {
+        document.getElementById('status').textContent = 'online'
+      }
+      else {
+        document.getElementById('status').textContent = 'offline'
+
+      }
+    }
+    checkStatus()
+    window.addEventListener('online', () => {
+      checkStatus()
+    })
+    window.addEventListener('offline', () => {
+      checkStatus()
+    })
+  </script>
+</body>
+
+</html>
